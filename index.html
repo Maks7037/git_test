@@ -1,148 +1,4 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Визначні місця Швейцарії</title>
-    <style>
-        /* Стилі для гарного вигляду */
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; 
-            background-color: #1a1a1a; 
-            color: #ffffff; 
-            text-align: center; 
-            overflow: hidden;
-        }
-        .slide { 
-            display: none; 
-            height: 100vh; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 20px; 
-            box-sizing: border-box; 
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        .slide.active { 
-            display: flex; 
-        }
-        img { 
-            max-width: 80%; 
-            max-height: 55vh; 
-            border-radius: 15px; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            margin-bottom: 25px; 
-            object-fit: cover; 
-        }
-        h1 { 
-            font-size: 2.5em; 
-            margin-bottom: 10px; 
-            color: #ffcc00;
-        }
-        p { 
-            font-size: 1.5em; 
-            max-width: 800px; 
-            line-height: 1.4;
-        }
-        .controls { 
-            position: fixed; 
-            bottom: 30px; 
-            width: 100%; 
-            display: flex; 
-            justify-content: center; 
-            gap: 20px; 
-        }
-        button { 
-            padding: 12px 25px; 
-            font-size: 1.2em; 
-            cursor: pointer; 
-            border: none; 
-            border-radius: 8px; 
-            background: #444; 
-            color: white; 
-            transition: background 0.3s;
-        }
-        button:hover { 
-            background: #666; 
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
-        }
-    </style>
-</head>
-<body>
-
-    
-    <div class="slide active">
-        <h1>Top 10 Famous Places in Switzerland</h1>
-        <p>A brief overview of the best locations</p>
-    </div>
-
-    
-    <div class="slide">
-        <img src="Matterhorn.jpeg" alt="Маттергорн">
-        <h1>1. Matterhorn</h1>
-        <p>Iconic 4,478m pyramid-shaped mountain peak in Zermatt.</p>
-    </div>
-
-    <div class="slide">
-        <img src="Jungfraujoch.jpeg" alt="Юнгфрауйох">
-        <h1>2. Jungfraujoch</h1>
-        <p>Europe’s highest railway station with views of the Aletsch Glacier.</p>
-    </div>
-
-    <div class="slide">
-        <img src="Lauterbrunnen Valley.jpeg" alt="Лаутербруннен">
-        <h1>3. Lauterbrunnen Valley</h1>
-        <p>Scenic Alpine valley famous for its cliffs and 72 waterfalls.</p>
-    </div>
-
-    <div class="slide">
-        <img src="Chillon Castle.jpeg" alt="Шийонський замок">
-        <h1>4. Chillon Castle</h1>
-        <p>Historic medieval fortress located on Lake Geneva.</p>
-    </div>
-
-    <div class="slide">
-        <img src="Kapel.jpeg" alt="Капелльбрюкке">
-        <h1>5. Kapellbrücke</h1>
-        <p>Europe’s oldest covered wooden bridge in Lucerne.</p>
-    </div>
-
-    <div class="slide">
-        <img src="Rhine Falls.jpeg" alt="Рейнський водоспад">
-        <h1>6. Rhine Falls</h1>
-        <p>Europe’s largest plain waterfall located near Schaffhausen.</p>
-    </div>
-
-    <div class="slide">
-        <img src="Bern Old Town.jpeg" alt="Берн">
-        <h1>7. Bern Old Town</h1>
-        <p>UNESCO heritage center with medieval arcades and the Zytglogge clock tower.</p>
-    </div>
-
-    <div class="slide">
-        <img src="Lake Geneva.jpeg" alt="Женевське озеро">
-        <h1>8. Lake Geneva</h1>
-        <p>Famous lake with the iconic 140-meter Jet d'Eau fountain.</p>
-    </div>
-
-    <div class="slide">
-        <img src="Glacier Express.jpeg" alt="Льодовиковий експрес">
-        <h1>9. Glacier Express</h1>
-        <p>Legendary panoramic train routes through the Alps.</p>
-    </div>
-
-    <div class="slide">
-        <img src="Lindt Home of Chocolate.png" alt="Дім шоколаду Lindt">
-        <h1>10. Lindt Home of Chocolate</h1>
-        <p>Interactive chocolate museum near Zurich with a giant chocolate fountain.</p>
-    </div>
-
-    <!-- Кнопки навігації -->
-    <div class="controls">
+<div class="controls">
         <button onclick="prevSlide()">◀ Назад</button>
         <button onclick="nextSlide()">Вперед ▶</button>
     </div>
@@ -175,6 +31,275 @@
         document.addEventListener('keydown', function(event) {
             if (event.key === 'ArrowRight') nextSlide();
             if (event.key === 'ArrowLeft') prevSlide();
+        });
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Визначні місця Швейцарії</title>
+    <style>
+        /* Стилі для гарного вигляду */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            background-color: #1a1a1a; 
+            color: #ffffff; 
+            text-align: center; 
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Ефект розмитого фону з тієї ж картинки */
+        .slide-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(25px) brightness(0.35); /* Розмиття та затемнення */
+            transform: scale(1.1); /* Збільшення, щоб уникнути білих країв від розмиття */
+            z-index: -1;
+        }
+
+        .slide { 
+            display: none; 
+            height: 100vh; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 20px; 
+            box-sizing: border-box; 
+            animation: fadeIn 0.5s ease-in-out;
+            position: relative; /* Необхідно для позиціонування фону */
+        }
+        .slide.active { 
+            display: flex; 
+        }
+        
+        /* Зображення та текст поверх фону */
+        img { 
+            max-width: 80%; 
+            max-height: 50vh; 
+            border-radius: 15px; 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.7);
+            margin-bottom: 20px; 
+            object-fit: cover; 
+            position: relative;
+            z-index: 2;
+        }
+        h1 { 
+            font-size: 2.5em; 
+            margin-bottom: 10px; 
+            color: #ffcc00;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+            position: relative;
+            z-index: 2;
+        }
+        p { 
+            font-size: 1.5em; 
+            max-width: 800px; 
+            line-height: 1.4;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Стилі для фінального списку посилань */
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            max-height: 60vh;
+            overflow-y: auto;
+            text-align: left;
+            position: relative;
+            z-index: 2;
+        }
+        .links-container a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-size: 1.3em;
+            transition: color 0.3s, transform 0.2s;
+            display: block;
+        }
+        .links-container a:hover {
+            color: #ffffff;
+            transform: translateX(10px);
+        }
+
+        .controls { 
+            position: fixed; 
+            bottom: 30px; 
+            width: 100%; 
+            display: flex; 
+            justify-content: center; 
+            gap: 20px; 
+            z-index: 10;
+        }
+        button { 
+            padding: 12px 25px; 
+            font-size: 1.2em; 
+            cursor: pointer; 
+            border: none; 
+            border-radius: 8px; 
+            background: rgba(68, 68, 68, 0.8); 
+            color: white; 
+            transition: background 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        button:hover { 
+            background: rgba(102, 102, 102, 0.9); 
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Титульний слайд -->
+    <div class="slide active">
+        <div class="slide-bg" style="background-image: url('Matterhorn.jpeg');"></div>
+        <h1>Top 10 Famous Places in Switzerland</h1>
+        <p>A brief overview of the best locations</p>
+    </div>
+
+    <div class="slide">
+        <div class="slide-bg" style="background-image: url('Matterhorn.jpeg');"></div>
+        <img src="Matterhorn.jpeg" alt="Маттергорн">
+        <h1>1. Matterhorn</h1>
+        <p>Iconic 4,478m pyramid-shaped mountain peak in Zermatt.</p>
+    </div>
+
+    <div class="slide">
+        <div class="slide-bg" style="background-image: url('Jungfraujoch.jpeg');"></div>
+        <img src="Jungfraujoch.jpeg" alt="Юнгфрауйох">
+        <h1>2. Jungfraujoch</h1>
+        <p>Europe’s highest railway station with views of the Aletsch Glacier.</p>
+    </div>
+
+    <div class="slide">
+        <div class="slide-bg" style="background-image: url('Lauterbrunnen Valley.jpeg');"></div>
+        <img src="Lauterbrunnen Valley.jpeg" alt="Лаутербруннен">
+        <h1>3. Lauterbrunnen Valley</h1>
+        <p>Scenic Alpine valley famous for its cliffs and 72 waterfalls.</p>
+    </div>
+
+    <div class="slide">
+        <div class="slide-bg" style="background-image: url('Chillon Castle.jpeg');"></div>
+        <img src="Chillon Castle.jpeg" alt="Шийонський замок">
+        <h1>4. Chillon Castle</h1>
+        <p>Historic medieval fortress located on Lake Geneva.</p>
+    </div>
+
+    <div class="slide">
+        <div class="slide-bg" style="background-image: url('Kapellbrücke.jpeg');"></div>
+        <img src="Kapellbrücke.jpeg" alt="Капелльбрюкке">
+        <h1>5. Kapellbrücke</h1>
+        <p>Europe’s oldest covered wooden bridge in Lucerne.</p>
+    </div>
+
+    <div class="slide">
+        <div class="slide-bg" style="background-image: url('Rhine Falls.jpeg');"></div>
+        <img src="Rhine Falls.jpeg" alt="Рейнський водоспад">
+        <h1>6. Rhine Falls</h1>
+        <p>Europe’s largest plain waterfall located near Schaffhausen.</p>
+    </div>
+
+    <div class="slide">
+        <div class="slide-bg" style="background-image: url('Bern Old Town.jpeg');"></div>
+        <img src="Bern Old Town.jpeg" alt="Берн">
+        <h1>7. Bern Old Town</h1>
+        <p>UNESCO heritage center with medieval arcades and the Zytglogge clock tower.</p>
+    </div>
+
+    <div class="slide">
+        <div class="slide-bg" style="background-image: url('Lake Geneva.jpeg');"></div>
+        <img src="Lake Geneva.jpeg" alt="Женевське озеро">
+        <h1>8. Lake Geneva</h1>
+        <p>Famous lake with the iconic 140-meter Jet d'Eau fountain.</p>
+    </div>
+
+    <div class="slide">
+        <div class="slide-bg" style="background-image: url('Glacier Express.jpeg');"></div>
+        <img src="Glacier Express.jpeg" alt="Льодовиковий експрес">
+        <h1>9. Glacier Express</h1>
+        <p>Legendary panoramic train routes through the Alps.</p>
+    </div>
+
+    <div class="slide">
+        <div class="slide-bg" style="background-image: url('Lindt Home of Chocolate.png');"></div>
+        <img src="Lindt Home of Chocolate.png" alt="Дім шоколаду Lindt">
+        <h1>10. Lindt Home of Chocolate</h1>
+        <p>Interactive chocolate museum near Zurich with a giant chocolate fountain.</p>
+    </div>
+
+    <!-- ФІНАЛЬНИЙ СЛАЙД З ПОСИЛАННЯМИ -->
+    <div class="slide">
+        <div class="slide-bg" style="background-image: url('Lake Geneva.jpeg');"></div>
+        <h1>Детальніше про кожне місце:</h1>
+        <div class="links-container">
+            <a href="https://uk.wikipedia.org/wiki/Маттергорн" target="_blank">1. Маттергорн (Matterhorn) 🔗</a>
+            <a href="https://uk.wikipedia.org/wiki/Юнгфрауйох" target="_blank">2. Юнгфрауйох (Jungfraujoch) 🔗</a>
+            <a href="https://uk.wikipedia.org/wiki/Лаутербруннен" target="_blank">3. Долина Лаутербруннен 🔗</a>
+            <a href="https://uk.wikipedia.org/wiki/Шийонський_замок" target="_blank">4. Шийонський замок 🔗</a>
+            <a href="https://uk.wikipedia.org/wiki/Капелльбрюкке" target="_blank">5. Капелльбрюкке 🔗</a>
+            <a href="https://uk.wikipedia.org/wiki/Рейнський_водоспад" target="_blank">6. Рейнський водоспад 🔗</a>
+            <a href="https://uk.wikipedia.org/wiki/Старе_місто_(Берн)" target="_blank">7. Старе місто Берна 🔗</a>
+            <a href="https://uk.wikipedia.org/wiki/Женевське_озеро" target="_blank">8. Женевське озеро 🔗</a>
+            <a href="https://uk.wikipedia.org/wiki/Льодовиковий_експрес" target="_blank">9. Льодовиковий експрес 🔗</a>
+            <a href="https://en.wikipedia.org/wiki/Lindt_%26_Sprüngli" target="_blank">10. Дім шоколаду Lindt 🔗</a>
+        </div>
+    </div>
+
+    <!-- Кнопки навігації -->
+    <div class="controls" style="z-index: 9999; pointer-events: auto;">
+        <button onclick="prevSlide()" style="position: relative; z-index: 10000;">◀ Назад</button>
+        <button onclick="nextSlide()" style="position: relative; z-index: 10000;">Вперед ▶</button>
+    </div>
+
+    <!-- Скрипт для перемикання слайдів -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+
+            window.showSlide = function(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('active');
+                    if (i === index) {
+                        slide.classList.add('active');
+                    }
+                });
+            };
+
+            window.nextSlide = function() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            };
+
+            window.prevSlide = function() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            };
+            
+            // Керування стрілочками на клавіатурі
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'ArrowRight') nextSlide();
+                if (event.key === 'ArrowLeft') prevSlide();
+            });
         });
     </script>
 </body>
