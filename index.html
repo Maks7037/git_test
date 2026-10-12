@@ -16,7 +16,7 @@
             height: 100vh;
         }
 
-        /* Вибір країни зверху екрану */
+        /* Вибір країни та мови зверху екрану */
         .country-selector {
             position: fixed;
             top: 20px;
@@ -27,10 +27,17 @@
             padding: 10px 20px;
             border-radius: 10px;
             backdrop-filter: blur(10px);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        label {
+            font-size: 1em;
+            color: #ffcc00;
         }
         select {
             padding: 8px 15px;
-            font-size: 1.2em;
+            font-size: 1.1em;
             border-radius: 5px;
             border: 1px solid #ffcc00;
             background: #333;
@@ -47,8 +54,8 @@
             height: 100%;
             background-size: cover;
             background-position: center;
-            filter: blur(25px) brightness(0.35); /* Сильне розмиття та затемнення */
-            transform: scale(1.1); /* Забираємо білі краї */
+            filter: blur(25px) brightness(0.35);
+            transform: scale(1.1);
             z-index: -1;
         }
 
@@ -123,7 +130,7 @@
             transform: translateX(10px);
         }
 
-        /* Кнопки "Вперед / Назад" */
+        /* Кнопки навігації */
         .controls { 
             position: fixed; 
             bottom: 30px; 
@@ -156,55 +163,86 @@
 </head>
 <body>
 
-    <!-- Меню вибору країни -->
+    <!-- Меню вибору країни та мови -->
     <div class="country-selector">
-        <label for="country-select">Select a country: </label>
-        <select id="country-select" onchange="changeCountry()">
-            <option value="switzerland">Switzerland(Швейцарія)</option>
-            <option value="czechia">Czech Republic(Чехія)</option>
-        </select>
+        <div>
+            <label for="country-select">Country:</label>
+            <select id="country-select" onchange="updatePresentation()">
+                <option value="czechia">Czechia (Чехія)</option>
+                <option value="switzerland">Switzerland (Швейцарія)</option>
+            </select>
+        </div>
+        <div>
+            <label for="lang-select">Language:</label>
+            <select id="lang-select" onchange="updatePresentation()">
+                <option value="uk">Українська</option>
+                <option value="en">English</option>
+            </select>
+        </div>
     </div>
 
-    <!-- Контейнер для слайдів (генерується скриптом) -->
+    <!-- Контейнер для слайдів -->
     <div id="slides-container"></div>
 
     <!-- Кнопки навігації -->
     <div class="controls">
-        <button onclick="prevSlide()">◀ Back</button>
-        <button onclick="nextSlide()">Forward ▶</button>
+        <button onclick="prevSlide()" id="btn-back">◀ Back</button>
+        <button onclick="nextSlide()" id="btn-forward">Forward ▶</button>
     </div>
 
     <script>
-        // ДАНІ ДЛЯ КРАЇН: тут ви можете додавати інші країни або міняти фото та текст
+        // ДАНІ ДЛЯ КРАЇН З ДВОМА МОВАМИ
         const countriesData = {
-            switzerland: {
-                name: "Швейцарії",
+            czechia: {
+                title: {
+                    uk: "Визначні місця Чехії",
+                    en: "Top 10 Famous Places in Czechia"
+                },
+                subtitle: {
+                    uk: "Короткий огляд найкращих локацій",
+                    en: "A brief overview of the best locations"
+                },
+                moreTitle: {
+                    uk: "Детальніше про кожне місце:",
+                    en: "Learn more about each place:"
+                },
                 places: [
-                    { img: "Matterhorn.jpeg", title: "1. Matterhorn", desc: "Iconic 4,478m pyramid-shaped mountain peak in Zermatt.", link: "https://uk.wikipedia.org/wiki/Маттергорн" },
-                    { img: "Jungfraujoch.jpeg", title: "2. Jungfraujoch", desc: "Europe’s highest railway station with views of the Aletsch Glacier.", link: "https://uk.wikipedia.org/wiki/Юнгфрауйох" },
-                    { img: "Lauterbrunnen Valley.jpeg", title: "3. Lauterbrunnen Valley", desc: "Scenic Alpine valley famous for its cliffs and 72 waterfalls.", link: "https://uk.wikipedia.org/wiki/Лаутербруннен" },
-                    { img: "Chillon Castle.jpeg", title: "4. Chillon Castle", desc: "Historic medieval fortress located on Lake Geneva.", link: "https://uk.wikipedia.org/wiki/Шийонський_замок" },
-                    { img: "kapel.jpeg", title: "5. Kapellbrücke", desc: "Europe’s oldest covered wooden bridge in Lucerne.", link: "https://uk.wikipedia.org/wiki/Капелльбрюкке" },
-                    { img: "Rhine Falls.jpeg", title: "6. Rhine Falls", desc: "Europe’s largest plain waterfall located near Schaffhausen.", link: "https://uk.wikipedia.org/wiki/Рейнський_водоспад" },
-                    { img: "Bern Old Town.jpeg", title: "7. Bern Old Town", desc: "UNESCO heritage center with medieval arcades and the Zytglogge clock tower.", link: "https://uk.wikipedia.org/wiki/Старе_місто_(Берн)" },
-                    { img: "Lake Geneva.jpeg", title: "8. Lake Geneva", desc: "Famous lake with the iconic 140-meter Jet d'Eau fountain.", link: "https://uk.wikipedia.org/wiki/Женевське_озеро" },
-                    { img: "Glacier Express.jpeg", title: "9. Glacier Express", desc: "Legendary panoramic train routes through the Alps.", link: "https://uk.wikipedia.org/wiki/Льодовиковий_експрес" },
-                    { img: "Lindt Home of Chocolate.png", title: "10. Lindt Home of Chocolate", desc: "Interactive chocolate museum near Zurich with a giant chocolate fountain.", link: "https://en.wikipedia.org/wiki/Lindt_%26_Sprüngli" }
+                    { img: "krkonose.jpeg", title: { uk: "1. Національний парк Крконоше", en: "1. Krkonoše National Park" }, desc: { uk: "Найвищий гірський хребет Чехії з захоплюючими льодовиковими долинами та водоспадами.", en: "Czechia's highest mountain range featuring breathtaking glacial valleys and waterfalls." }, link: "https://en.wikipedia.org/wiki/Krkonoše_National_Park" },
+                    { img: "MoravianKarst.jpeg", title: { uk: "2. Моравський крас", en: "2. Moravian Karst" }, desc: { uk: "Приголомшливий заповідник дикої природи, відомий величною прірвою Мацоха та підземними прогулянками на човнах.", en: "A stunning natural reserve featuring the massive Macocha Abyss and underground boat rides." }, link: "https://en.wikipedia.org/wiki/Moravian_Karst" },
+                    { img: "Krumlov.jpeg", title: { uk: "3. Чеський Крумлов", en: "3. Český Krumlov" }, desc: { uk: "Казкове середньовічне містечко під охороною ЮНЕСКО.", en: "A fairytale medieval town protected by UNESCO." }, link: "https://uk.wikipedia.org/wiki/Чеський_Крумлов" },
+                    { img: "Hluboka.jpeg", title: { uk: "4. Замок Глубока", en: "4. Hluboká Castle" }, desc: { uk: "Один із найромантичніших і найгарніших замків Чехії.", en: "One of the most romantic and beautiful castles in Czechia." }, link: "https://uk.wikipedia.org/wiki/Глубока_(замок)" },
+                    { img: "hora.webp", title: { uk: "5. Кутна Гора", en: "5. Kutná Hora" }, desc: { uk: "Місто готичної архітектури, всесвітньо відоме завдяки Кістниці.", en: "A city of Gothic architecture, world-famous for its Ossuary (Bone Church)." }, link: "https://uk.wikipedia.org/wiki/Кутна-Гора" },
+                    { img: "KarlovyVary.jpeg", title: { uk: "6. Карлові Вари", en: "6. Karlovy Vary" }, desc: { uk: "Всесвітньо відоме курортне місто з цілющими джерелами.", en: "A world-famous spa town with healing mineral springs." }, link: "https://uk.wikipedia.org/wiki/Карлові_Вари" },
+                    { img: "BohemianSwitzerland.jpeg", title: { uk: "7. Чеська Швейцарія", en: "7. Bohemian Switzerland" }, desc: { uk: "Мальовнича природа з величними пісковиковими скелями.", en: "Picturesque nature with majestic sandstone rocks." }, link: "https://uk.wikipedia.org/wiki/Чеська_Швейцарія" },
+                    { img: "Karlstejn.jpeg", title: { uk: "8. Замок Карлштейн", en: "8. Karlštejn Castle" }, desc: { uk: "Готичний замок XIV століття, збудований імператором Карлом IV.", en: "A 14th-century Gothic castle built by Emperor Charles IV." }, link: "https://uk.wikipedia.org/wiki/Карлштейн" },
+                    { img: "Lednice.jpeg", title: { uk: "9. Ледніцько-Валтицький ареал", en: "9. Lednice-Valtice Cultural Landscape" }, desc: { uk: "Грандіозний ландшафтний парк із розкішними палацами.", en: "A grand landscape park with luxurious palaces." }, link: "https://uk.wikipedia.org/wiki/Ледніцько-Валтицький_ареал" },
+                    { img: "Telc.jpeg", title: { uk: "10. Містечко Тельч", en: "10. Telč" }, desc: { uk: "Казкове мальовниче містечко з вражаючою центральною площею доби Відродження XVI століття.", en: "A picturesque fairytale town with a stunning 16th-century Renaissance main square." }, link: "https://en.wikipedia.org/wiki/Telč" }
                 ]
             },
-            czechia: {
-                name: "Чехії",
+            switzerland: {
+                title: {
+                    uk: "Визначні місця Швейцарії",
+                    en: "Top 10 Famous Places in Switzerland"
+                },
+                subtitle: {
+                    uk: "Короткий огляд найкращих локацій",
+                    en: "A brief overview of the best locations"
+                },
+                moreTitle: {
+                    uk: "Детальніше про кожне місце:",
+                    en: "Learn more about each place:"
+                },
                 places: [
-                    { img: "krkonose.jpeg", title: "1. Національний парк Крконоше", desc: "Найвищий гірський хребет Чехії з захоплюючими льодовиковими долинами та водоспадами.", link: "https://en.wikipedia.org/wiki/Krkonoše_National_Park" },
-                    { img: "MoravianKarst.jpeg", title: "2. Моравський крас", desc: "Приголомшливий заповідник дикої природи, відомий величною прірвою Мацоха та підземними прогулянками на човнах.", link: "https://en.wikipedia.org/wiki/Moravian_Karst" },
-                    { img: "Krumlov.jpeg", title: "3. Чеський Крумлов", desc: "Казкове середньовічне містечко під охороною ЮНЕСКО.", link: "https://uk.wikipedia.org/wiki/Чеський_Крумлов" },
-                    { img: "Hluboka.jpeg", title: "4. Замок Глубока", desc: "Один із найромантичніших і найгарніших замків Чехії.", link: "https://uk.wikipedia.org/wiki/Глубока_(замок)" },
-                    { img: "hora.webp", title: "5. Кутна Гора", desc: "Місто готичної архітектури, всесвітньо відоме завдяки Кістниці.", link: "https://uk.wikipedia.org/wiki/Кутна-Гора" },
-                    { img: "KarlovyVary.jpeg", title: "6. Карлові Вари", desc: "Всесвітньо відоме курортне місто з цілющими джерелами.", link: "https://uk.wikipedia.org/wiki/Карлові_Вари" },
-                    { img: "BohemianSwitzerland.jpeg", title: "7. Чеська Швейцарія", desc: "Мальовнича природа з величними пісковиковими скелями.", link: "https://uk.wikipedia.org/wiki/Чеська_Швейцарія" },
-                    { img: "Karlstejn.jpeg", title: "8. Замок Карлштейн", desc: "Готичний замок XIV століття, збудований імператором Карлом IV.", link: "https://uk.wikipedia.org/wiki/Карлштейн" },
-                    { img: "Lednice.jpeg", title: "9. Ледніцько-Валтицький ареал", desc: "Грандіозний ландшафтний парк із розкішними палацами.", link: "https://uk.wikipedia.org/wiki/Ледніцько-Валтицький_ареал" },
-                    { img: "Telc.jpeg", title: "10. Містечко Тельч", desc: "Казкове мальовниче містечко з вражаючою центральною площею доби Відродження XVI століття.", link: "https://en.wikipedia.org/wiki/Telč" },
+                    { img: "Matterhorn.jpeg", title: { uk: "1. Маттергорн", en: "1. Matterhorn" }, desc: { uk: "Культова пірамідальна гірська вершина висотою 4478 м у Церматті.", en: "Iconic 4,478m pyramid-shaped mountain peak in Zermatt." }, link: "https://uk.wikipedia.org/wiki/Маттергорн" },
+                    { img: "Jungfraujoch.jpeg", title: { uk: "2. Юнгфрауйох", en: "2. Jungfraujoch" }, desc: { uk: "Найвища залізнична станція в Європі з видом на льодовик Алеч.", en: "Europe’s highest railway station with views of the Aletsch Glacier." }, link: "https://uk.wikipedia.org/wiki/Юнгфрауйох" },
+                    { img: "Lauterbrunnen Valley.jpeg", title: { uk: "3. Долина Лаутербруннен", en: "3. Lauterbrunnen Valley" }, desc: { uk: "Мальовнича альпійська долина, відома своїми скелями та 72 водоспадами.", en: "Scenic Alpine valley famous for its cliffs and 72 waterfalls." }, link: "https://uk.wikipedia.org/wiki/Лаутербруннен" },
+                    { img: "Chillon Castle.jpeg", title: { uk: "4. Шийонський замок", en: "4. Chillon Castle" }, desc: { uk: "Історична середньовічна фортеця на Женевському озері.", en: "Historic medieval fortress located on Lake Geneva." }, link: "https://uk.wikipedia.org/wiki/Шийонський_замок" },
+                    { img: "kapel.jpeg", title: { uk: "5. Капелльбрюкке", en: "5. Kapellbrücke" }, desc: { uk: "Найстаріший критий дерев'яний міст у Європі в Люцерні.", en: "Europe’s oldest covered wooden bridge in Lucerne." }, link: "https://uk.wikipedia.org/wiki/Капелльбрюкке" },
+                    { img: "Rhine Falls.jpeg", title: { uk: "6. Рейнський водоспад", en: "6. Rhine Falls" }, desc: { uk: "Найбільший рівнинний водоспад Європи поблизу Шаффгаузена.", en: "Europe’s largest plain waterfall located near Schaffhausen." }, link: "https://uk.wikipedia.org/wiki/Рейнський_водоспад" },
+                    { img: "Bern Old Town.jpeg", title: { uk: "7. Старе місто Берна", en: "7. Bern Old Town" }, desc: { uk: "Центр спадщини ЮНЕСКО з середньовічними аркадами та вежею з годинником Цитглогге.", en: "UNESCO heritage center with medieval arcades and the Zytglogge clock tower." }, link: "https://uk.wikipedia.org/wiki/Старе_місто_(Берн)" },
+                    { img: "Lake Geneva.jpeg", title: { uk: "8. Женевське озеро", en: "8. Lake Geneva" }, desc: { uk: "Відоме озеро з культовим 140-метровим фонтаном Же-До.", en: "Famous lake with the iconic 140-meter Jet d'Eau fountain." }, link: "https://uk.wikipedia.org/wiki/Женевське_озеро" },
+                    { img: "Glacier Express.jpeg", title: { uk: "9. Льодовиковий експрес", en: "9. Glacier Express" }, desc: { uk: "Легендарні панорамні залізничні маршрути через Альпи.", en: "Legendary panoramic train routes through the Alps." }, link: "https://uk.wikipedia.org/wiki/Льодовиковий_експрес" },
+                    { img: "Lindt Home of Chocolate.png", title: { uk: "10. Дім шоколаду Lindt", en: "10. Lindt Home of Chocolate" }, desc: { uk: "Інтерактивний музей шоколаду біля Цюриха з велетенським шоколадним фонтаном.", en: "Interactive chocolate museum near Zurich with a giant chocolate fountain." }, link: "https://en.wikipedia.org/wiki/Lindt_%26_Sprüngli" }
                 ]
             }
         };
@@ -212,21 +250,26 @@
         let currentSlide = 0;
         let slidesElements = [];
 
-        // Функція, яка бере дані з об'єкта вище і створює HTML-код слайдів
-        function renderSlides(countryKey) {
+        // Функція оновлення сторінки при зміні країни або мови
+        function updatePresentation() {
+            const countryKey = document.getElementById('country-select').value;
+            const langKey = document.getElementById('lang-select').value;
             const data = countriesData[countryKey];
             const container = document.getElementById('slides-container');
             let html = '';
             
-            // Беремо першу картинку для фону титульного та фінального слайду
             const defaultBg = data.places[0].img;
+
+            // Зміна текстів на кнопках навігації залежно від мови
+            document.getElementById('btn-back').innerText = langKey === 'uk' ? '◀ Назад' : '◀ Back';
+            document.getElementById('btn-forward').innerText = langKey === 'uk' ? 'Вперед ▶' : 'Forward ▶';
 
             // 1. Титульний слайд
             html += `
                 <div class="slide active">
                     <div class="slide-bg" style="background-image: url('${defaultBg}');"></div>
-                    <h1>Top 10 Famous Places in ${data.name === "Швейцарії" ? "Switzerland" : "Czechia"}</h1>
-                    <p>A brief overviewn of the best locations</p>
+                    <h1>${data.title[langKey]}</h1>
+                    <p>${data.subtitle[langKey]}</p>
                 </div>
             `;
 
@@ -235,9 +278,9 @@
                 html += `
                     <div class="slide">
                         <div class="slide-bg" style="background-image: url('${place.img}');"></div>
-                        <img src="${place.img}" alt="${place.title}">
-                        <h1>${place.title}</h1>
-                        <p>${place.desc}</p>
+                        <img src="${place.img}" alt="${place.title[langKey]}">
+                        <h1>${place.title[langKey]}</h1>
+                        <p>${place.desc[langKey]}</p>
                     </div>
                 `;
             });
@@ -246,23 +289,16 @@
             html += `
                 <div class="slide">
                     <div class="slide-bg" style="background-image: url('${defaultBg}');"></div>
-                    <h1>Детальніше про кожне місце:</h1>
+                    <h1>${data.moreTitle[langKey]}</h1>
                     <div class="links-container">
-                        ${data.places.map(place => `<a href="${place.link}" target="_blank">${place.title} 🔗</a>`).join('')}
+                        ${data.places.map(place => `<a href="${place.link}" target="_blank">${place.title[langKey]} 🔗</a>`).join('')}
                     </div>
                 </div>
             `;
 
-            // Вставляємо все на сторінку
             container.innerHTML = html;
             slidesElements = document.querySelectorAll('.slide');
             currentSlide = 0;
-        }
-
-        // Запуск при виборі зі списку
-        function changeCountry() {
-            const selectedCountry = document.getElementById('country-select').value;
-            renderSlides(selectedCountry);
         }
 
         // Логіка перемикання слайдів
@@ -283,15 +319,15 @@
             showSlide(currentSlide);
         };
         
-        // Кнопки на клавіатурі
+        // Керування стрілочками на клавіатурі
         document.addEventListener('keydown', function(event) {
             if (event.key === 'ArrowRight') nextSlide();
             if (event.key === 'ArrowLeft') prevSlide();
         });
 
-        // Запускаємо першу країну під час відкриття сторінки
+        // Запуск при завантаженні сторінки
         document.addEventListener('DOMContentLoaded', () => {
-            changeCountry();
+            updatePresentation();
         });
     </script>
 </body>
